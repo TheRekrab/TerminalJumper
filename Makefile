@@ -1,18 +1,16 @@
 CC=gcc
 CFLAGS=-g -Wall -lcurses
-FINALFLAGS=-s -Wall -DNDEBUG -lcurses
 BIN=game
+UTILS=utils
 
-all: $(BIN)
+all: $(BIN).o $(UTILS).o
+	$(CC) $(CFLAGS) $(BIN).o $(UTILS).o -o $(BIN)
 
-%: %.c
-	$(CC) $(CFLAGS) $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f a.out $(BIN)
+	rm -f a.out $(BIN) *.o
 
-run: $(BIN)
-	@./$(BIN); rm $(BIN)
-
-final: $(BIN).c
-	$(CC) $(FINALFLAGS) $< -o $@
+run: all
+		@./$(BIN); rm $(BIN) *.o
