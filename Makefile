@@ -2,8 +2,9 @@ CC=gcc
 CFLAGS=-g -Wall -lcurses
 BIN=game
 UTILS=utils
+HDRS=defs.h
 
-all: $(BIN).o $(UTILS).o
+all: $(BIN).o $(UTILS).o $(HDRS)
 	$(CC) $(CFLAGS) $(BIN).o $(UTILS).o -o $(BIN)
 
 %.o: %.c
