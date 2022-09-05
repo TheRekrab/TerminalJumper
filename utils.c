@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <assert.h>
 #include <unistd.h>
 #include <curses.h>
 #include "defs.h"
@@ -84,4 +83,8 @@ void game_over(int final_score, int win_y, int win_x) {
 	endwin();
 	printf("GAME OVER!\nFinal Score:\t%d\n", final_score);
 	exit(EXIT_SUCCESS);
+}
+
+void help(void) {
+	puts("TERMINAL JUMPER:   A fun terminal hopping game.\n\nInstructions:\nUse SPACE/w/UP to jump (your preference). You should try to avoid obstacles, which look like '*'s. Each time you jump over an obstacle, you gain one point. Once you finally hit an obstacle, you will die, and be shown an end screen. If at any point you really need to fall, then press DOWN/s to quickly abort your jump and move down.\n\nHappy jumping!");
 }
