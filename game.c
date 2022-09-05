@@ -97,6 +97,8 @@ int main(int argc, char** argv) {
 		short key_pressed = getch();
 		if (jump(key_pressed) && y == 0) {
 			is_jumping = true;
+			beep();
+
 		} else if (key_pressed == KEY_DOWN || key_pressed == 's' || key_pressed == 'S') {
 			is_jumping = false;
 			y--;

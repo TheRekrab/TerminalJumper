@@ -78,6 +78,9 @@ void game_over(int final_score, int win_y, int win_x) {
 	mvaddstr(win_y / 2 + 1, win_x / 2 - 11, "Press any key to exit!");
 	refresh();
 	while(getch() == ERR);
+	erase();
+	refresh();
+	beep();
 	endwin();
 	printf("GAME OVER!\nFinal Score:\t%d\n", final_score);
 	exit(EXIT_SUCCESS);
