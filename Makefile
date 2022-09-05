@@ -3,11 +3,12 @@ CFLAGS=-g -Wall -lcurses
 BIN=game
 UTILS=utils
 HDRS=defs.h
+PROJ_NAME=jump
 
 all: $(BIN).o $(UTILS).o $(HDRS)
 	$(CC) $(CFLAGS) $(BIN).o $(UTILS).o -o $(BIN)
 
-%.o: %.c
+%.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -15,3 +16,11 @@ clean:
 
 run: all
 		@./$(BIN); rm $(BIN) *.o
+
+production: $(BIN).o $(UTILS).o $(HDRS)
+	$(CC) -s -DNDEBUG -lcurses $(BIN).o $(UTILS).o -o $(BIN)
+	rm $(BIN).o $(UTILS).o
+
+install: production
+	sudo cp $(BIN) /usr/local/bin/$(PROJ_NAME)
+	rm $(BIN)
