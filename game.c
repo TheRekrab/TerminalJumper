@@ -15,7 +15,7 @@ void fps_delay(void);
 void display_score(int);
 bool jump(short);
 void display_obstacle(Obstacle, int, int);
-
+void game_over(int, int, int);
 // The functions above are listed in utils.c, which is linked to this file, assuming that you used the Makefile!
 
 int main(int argc, char** argv) {
@@ -43,7 +43,8 @@ int main(int argc, char** argv) {
 	getmaxyx(stdscr, win_y, win_x);
 	win_y --;
 	win_x --;
-
+	
+	const int OBSTACLE_COUNT = win_x / 30 + 2;
 	
 	// create obstacles:
 	Obstacle obs[OBSTACLE_COUNT];
@@ -72,9 +73,7 @@ int main(int argc, char** argv) {
 					score ++;
 				} else {
 					// Uh, oh!
-					// TODO: create a better game over screen
-					endwin();
-					exit(EXIT_SUCCESS);
+					game_over(score, win_y, win_x);
 				}
 			}
 		}
@@ -85,7 +84,7 @@ int main(int argc, char** argv) {
 		// Loop the obstacles if they go over the edge
 		for (int i = 0; i < OBSTACLE_COUNT; i++) {
 			if (obs[i].x == TEXT_MARGIN) {
-				obs[i].x = win_x - TEXT_MARGIN;
+				obs[i].x = win_x - TEXT_MARGIN + rand() % 30;
 				obs[i].height = rand() % MAX_OB_HEIGHT + 1;
 			}
 		}
