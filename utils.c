@@ -28,6 +28,9 @@ void print_edges(int win_y, int win_x) {
 	mvaddch(MARGIN, win_x - MARGIN, '+');
 	mvaddch(win_y - MARGIN, MARGIN, '+');
 	mvaddch(win_y - MARGIN, win_x - MARGIN, '+');
+	
+	mvaddstr(TEXT_MARGIN - 1, win_x / 2 - 11, ">> TERMINAL JUMPER! <<");
+	mvaddstr(win_y - TEXT_MARGIN + 1, win_x / 2 - 13, ">> Use SPACE/UP to jump <<");
 }
 
 void fps_delay(void) {

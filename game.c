@@ -99,6 +99,7 @@ int main(int argc, char** argv) {
 			is_jumping = true;
 		} else if (key_pressed == KEY_DOWN || key_pressed == 's' || key_pressed == 'S') {
 			is_jumping = false;
+			y--;
 		}
 
 		if (is_jumping) {
