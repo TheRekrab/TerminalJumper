@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <curses.h>
+#include <sys/stat.h>
+#include <string.h>
 #include "defs.h"
 
 void cleanup(int foo) {
@@ -82,9 +84,52 @@ void game_over(int final_score, int win_y, int win_x) {
 	beep();
 	endwin();
 	printf("GAME OVER!\nFinal Score:\t%d\n", final_score);
+	// Get user name
+	FILE* fp = fopen(JUMPLOG, "a");
+	if (fp == NULL) {
+		printf("There was an error opening %s:\n", JUMPLOG);
+		perror("fopen");
+	}
+	fprintf(fp, "%d\n",final_score);
+	fclose(fp);
 	exit(EXIT_SUCCESS);
 }
 
 void help(void) {
 	puts("TERMINAL JUMPER:   A fun terminal hopping game.\n\nInstructions:\nUse SPACE/w/UP to jump (your preference). You should try to avoid obstacles, which look like '*'s. Each time you jump over an obstacle, you gain one point. Once you finally hit an obstacle, you will die, and be shown an end screen. If at any point you really need to fall, then press DOWN/s to quickly abort your jump and move down.\n\nHappy jumping!");
+}
+
+void topscore(void) {
+	struct stat sb;
+	int result = stat(JUMPLOG, &sb);
+	if (result == -1) {
+		puts("There are no scores loaded yet.");
+		return;
+	}
+	int size = sb.st_size;
+	FILE* fp = fopen(JUMPLOG, "r");
+	if (fp == NULL) {
+		printf("There was an error reading from %s\n", JUMPLOG);
+		perror("fopen");
+		return;
+	}
+	char scores[size];
+	
+	int top = 0;
+	int second = 0;
+
+	while(fgets(scores, size, fp)) {
+		int new_score = atoi(scores);
+		if (top < new_score) {
+			second = top;
+			top = new_score;
+		} else if (second < new_score) {
+			second = new_score;
+		}
+	} 
+	fclose(fp);
+
+	printf("TOP SCORES:\n1  :  %d\n2  :  %d\n", top, second);
+	printf("\nFor more information, check out %s\n", JUMPLOG);
+
 }

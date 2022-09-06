@@ -16,12 +16,16 @@ bool jump(short);
 void display_obstacle(Obstacle, int, int);
 void game_over(int, int, int);
 void help(void);
+void topscore(void);
 // The functions above are listed in utils.c, which is linked to this file, assuming that you used the Makefile!
 
 int main(int argc, char** argv) {
 	if (argc > 1) {
 		if (strcmp(argv[1], "-h") * strcmp(argv[1], "--help") == 0) {
 			help();
+			return EXIT_SUCCESS;
+		} else if (strcmp(argv[1], "top") == 0) {
+			topscore();
 			return EXIT_SUCCESS;
 		}
 	}
@@ -48,9 +52,9 @@ int main(int argc, char** argv) {
 	getmaxyx(stdscr, win_y, win_x);
 	win_y --;
 	win_x --;
-	
+
 	const int OBSTACLE_COUNT = win_x / 30 + 2;
-	
+
 	// create obstacles:
 	Obstacle obs[OBSTACLE_COUNT];
 	for (int i = 0; i < OBSTACLE_COUNT; i++) {
