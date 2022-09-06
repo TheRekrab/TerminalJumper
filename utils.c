@@ -72,15 +72,10 @@ void display_obstacle(Obstacle obstacle, int floor, int max_x) {
 void game_over(int final_score, int win_y, int win_x) {
 	// Clear the input buffer
 	while(getch() != ERR);
-	erase();
-	print_edges(win_y, win_x);
-	display_score(final_score);
 	mvaddstr(win_y / 2, win_x / 2 - 5, "GAME OVER!");	
 	mvaddstr(win_y / 2 + 1, win_x / 2 - 11, "Press any key to exit!");
 	refresh();
 	while(getch() == ERR);
-	erase();
-	refresh();
 	beep();
 	endwin();
 	printf("GAME OVER!\nFinal Score:\t%d\n", final_score);

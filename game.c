@@ -82,6 +82,8 @@ int main(int argc, char** argv) {
 					score ++;
 				} else {
 					// Uh, oh!
+					for (int i = 0; i < OBSTACLE_COUNT; i++) display_obstacle(obs[i], win_y - TEXT_MARGIN, win_x - TEXT_MARGIN);
+					mvaddch(win_y - TEXT_MARGIN - y, character_x, '#');
 					game_over(score, win_y, win_x);
 				}
 			}
