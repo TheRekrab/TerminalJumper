@@ -39,8 +39,9 @@ void fps_delay(void) {
 	usleep(milliseconds_to_sleep * 100);
 }
 
-void display_score(int score) {
+void display_score(int score, int top, int width) {
 	mvprintw(MARGIN - 1, MARGIN, "SCORE: %d", score);
+	mvprintw(MARGIN - 1, width - MARGIN - MARGIN - 10, "TOP SCORE:  %d", top);
 }
 
 bool jump(short key_pressed) {
@@ -94,37 +95,49 @@ void help(void) {
 	puts("TERMINAL JUMPER:   A fun terminal hopping game.\n\nInstructions:\nUse SPACE/w/UP to jump (your preference). You should try to avoid obstacles, which look like '*'s. Each time you jump over an obstacle, you gain one point. Once you finally hit an obstacle, you will die, and be shown an end screen. If at any point you really need to fall, then press DOWN/s to quickly abort your jump and move down.\n\nHappy jumping!");
 }
 
-void topscore(void) {
+int topscore(int place) {
 	struct stat sb;
 	int result = stat(JUMPLOG, &sb);
 	if (result == -1) {
-		puts("There are no scores loaded yet.");
-		return;
+		return 0;
 	}
 	int size = sb.st_size;
 	FILE* fp = fopen(JUMPLOG, "r");
 	if (fp == NULL) {
-		printf("There was an error reading from %s\n", JUMPLOG);
-		perror("fopen");
-		return;
+		return 0;
 	}
 	char scores[size];
 	
 	int top = 0;
 	int second = 0;
+	int third = 0;
 
 	while(fgets(scores, size, fp)) {
 		int new_score = atoi(scores);
 		if (top < new_score) {
+			third = second;
 			second = top;
 			top = new_score;
 		} else if (second < new_score) {
+			third = second;
 			second = new_score;
+		} else if (third < new_score) {
+			third = new_score;
 		}
 	} 
 	fclose(fp);
-
-	printf("TOP SCORES:\n1  :  %d\n2  :  %d\n", top, second);
-	printf("\nFor more information, check out %s\n", JUMPLOG);
+	switch(place) {
+		case 1:
+			return top;
+			break;
+		case 2:
+			return second;
+			break;
+		case 3:
+			return 3;
+			break;
+		default:
+			return 0;
+	}
 
 }
