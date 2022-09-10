@@ -37,7 +37,7 @@ SCORE: 0
 You are the hashtag (`#`). You can press space/up/w to jump, and try to avoid hitting '`*`'s. Those are bad.
 
 ```
-SCORE: 24
+SCORE: 24                     TOP SCORE: 32
 +----------->> TERMINAL JUMPER <<---------+
 |                                         |
 |                                         |
@@ -50,5 +50,17 @@ SCORE: 24
 +------->> Use SPACE/UP to jump <<--------+
 ```
 If you hit an obstacle, you lose. 
+
+## Extra Features
+If you run the program with the argument `top`, then you will see the top 3 highest scores:
+```bash
+$ jump top
+  TOP SCORES:
+  1  :  32
+  2  :  28
+  3  :  12
+```
+Each time you play, your score is recorded to `~/.jumplog`, so if you run `wc -l ~/.jumplog`, then you can also see how many times you have played. Also, the program uses the `HOME` environment variable to get the path of the jumplog, so different users on the same system can have different top scores.
+
 
 ### Have fun playing!
