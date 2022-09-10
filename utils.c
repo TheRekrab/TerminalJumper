@@ -134,7 +134,7 @@ int topscore(int place) {
 			return second;
 			break;
 		case 3:
-			return 3;
+			return third;
 			break;
 		default:
 			return 0;
