@@ -69,6 +69,9 @@ int main(int argc, char** argv) {
 	bool is_jumping = false;
 	int character_x = win_x / 2 - 10;
 
+	// create our speed variable 
+	double speed = 1.0;
+
 	// Start our loop:
 	while (true) {
 		erase();
@@ -79,28 +82,26 @@ int main(int argc, char** argv) {
 			first = score;
 		}
 		display_score(score, first, win_x);
-
+		
 		// Is the user touching an obstacle?
 		for (int i = 0; i < OBSTACLE_COUNT; i++) {
-			if (obs[i].x == character_x) {
-				if (y > obs[i].height) {
-					// If this is true, then the character is safe.
-					score ++;
-				} else {
-					// Uh, oh!
-					for (int i = 0; i < OBSTACLE_COUNT; i++) display_obstacle(obs[i], win_y - TEXT_MARGIN, win_x - TEXT_MARGIN);
-					mvaddch(win_y - TEXT_MARGIN - y, character_x, '#');
-					game_over(score, win_y, win_x);
-				}
+			if (obs[i].x == character_x && y < obs[i].height) {
+				// Uh, oh!
+				for (int i = 0; i < OBSTACLE_COUNT; i++) display_obstacle(obs[i], win_y - TEXT_MARGIN, win_x - TEXT_MARGIN);
+				mvaddch(win_y - TEXT_MARGIN - y, character_x, '#');
+				game_over(score, win_y, win_x);
+			} else if (character_x == obs[i].x) {
+				// Otherwise, the score should increase!
+				score ++;
 			}
 		}
 		
 		// Move each obstacle one over:
-		for (int i = 0; i < OBSTACLE_COUNT; i++) obs[i].x--;
+		for (int i = 0; i < OBSTACLE_COUNT; i++) obs[i].x-=(int)speed;
 		
 		// Loop the obstacles if they go over the edge
 		for (int i = 0; i < OBSTACLE_COUNT; i++) {
-			if (obs[i].x == TEXT_MARGIN) {
+			if (obs[i].x <= TEXT_MARGIN) {
 				obs[i].x = win_x - TEXT_MARGIN + rand() % 30;
 				obs[i].height = rand() % MAX_OB_HEIGHT + 1;
 			}
