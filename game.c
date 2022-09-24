@@ -21,6 +21,7 @@ int topscore(int);
 
 int main(int argc, char** argv) {
 	int first = topscore(1), second = topscore(2), third = topscore(3);
+	bool mute = false;
 	if (argc > 1) {
 		if (strcmp(argv[1], "-h") * strcmp(argv[1], "--help") == 0) {
 			help();
@@ -28,6 +29,8 @@ int main(int argc, char** argv) {
 		} else if (strcmp(argv[1], "top") == 0) {
 			printf("TOP SCORES:\n1  :  %d\n2  :  %d\n3  :  %d\n", first, second, third);
 			return EXIT_SUCCESS;
+		} else if (strcmp(argv[1], "mute") == 0) {
+			mute = true;
 		}
 	}
 	// Setup a CTRL-C handler to leave the program:
@@ -115,7 +118,7 @@ int main(int argc, char** argv) {
 		short key_pressed = getch();
 		if (jump(key_pressed) && y == 0) {
 			is_jumping = true;
-			beep();
+			if (!mute) beep();
 
 		} else if (key_pressed == KEY_DOWN || key_pressed == 's' || key_pressed == 'S') {
 			is_jumping = false;
